@@ -60,17 +60,15 @@ class Live(Board):
 
     def on_click(self, cell_x, cell_y):
         super().on_click(cell_x, cell_y)
-        print(self.count_neighborhood(cell_x, cell_y))
 
     def count_neighborhood(self, x, y):
         count = 0
-        delta = [(dx, dy) for dx in [-1, 0, 1] for dy in [-1, 0, 1] if dx != 0 or dy != 0]
-        for dx, dy in delta:
-            new_x = x + dx
-            new_y = y + dy
-            if 0 <= new_x < self.width and 0 <= new_y < self.height:
-                if self.board[new_y][new_x] == 1:
+        for new_y in range(y - 1, y + 2):
+            for new_x in range(x - 1, x + 2):
+                if self.board[new_y % self.height][new_x % self.width] == 1:
                     count += 1
+        if self.board[y][x] == 1:
+            count -= 1
         return count
 
     def next_move(self):
